@@ -4,8 +4,8 @@ import java.time.LocalDate;
 
 public interface Loanable {
 
-    void loan(Member member, Book book);
-    void returnItem(Member member, Book book);
+    void loan();
+    void returnItem();
     boolean isLoaned();
     LocalDate getLoanDate();
 }

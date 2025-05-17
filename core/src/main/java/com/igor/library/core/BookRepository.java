@@ -10,4 +10,9 @@ public class BookRepository {
         books.put(book.getIsbn(), book);
     }
 
+    public Book searchByIsbn(String isbn){
+
+        return books.get(isbn);
+    }
+
 }

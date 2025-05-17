@@ -4,31 +4,36 @@ import java.time.LocalDate;
 
 public class Loan implements Loanable {
 
-    private Book book;
-    private Member member;
-    private LocalDate loanDate;
+    private final Book book;
+    private final Member member;
+    private final  LocalDate loanDate;
     private LocalDate dueDate;
     private boolean returned;
 
-    public Loan(Book book, Member member, LocalDate dueDate, LocalDate loanDate) {
+    public Loan(Book book, Member member, LocalDate dueDate) {
         this.book = book;
         this.member = member;
+        this.loanDate = LocalDate.now();
         this.dueDate = dueDate;
-        this.loanDate = loanDate;
+        this.returned = false;
     }
 
     @Override
-    public void loan(Member member, Book book) {
-
-
-
+    public void loan() {
+        if (returned == false && isLoaned()){
+            throw new IllegalStateException("O livro já foi emprestado.");
+        }
+        returned = false;
     }
 
     @Override
-    public void returnItem(Member member, Book book) {
-
-
-
+    public void returnItem() {
+        if(!isLoaned()){
+            throw new IllegalStateException("O livro ainda não foi emprestado.");
+        }
+        returned = true;
+        BookRepository book = new BookRepository();
+        book.addBook(this.book);
     }
 
     @Override
