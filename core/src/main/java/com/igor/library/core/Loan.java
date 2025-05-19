@@ -1,5 +1,6 @@
 package com.igor.library.core;
 
+import com.igor.library.exceptions.BookNotAvaliableException;
 import java.time.LocalDate;
 
 public class Loan implements Loanable {
@@ -19,17 +20,18 @@ public class Loan implements Loanable {
     }
 
     @Override
-    public void loan() {
+    public void loan() throws BookNotAvaliableException {
+
         if (returned == false && isLoaned()){
-            throw new IllegalStateException("O livro já foi emprestado.");
+            throw new BookNotAvaliableException("O livro: " + book.getTitle() + " não está disponível, pois já foi emprestado");
         }
         returned = false;
     }
 
     @Override
-    public void returnItem() {
+    public void returnItem() throws BookNotAvaliableException {
         if(!isLoaned()){
-            throw new IllegalStateException("O livro ainda não foi emprestado.");
+            throw new BookNotAvaliableException("O livro " + book.getTitle() + " ainda não foi emprestado.");
         }
         returned = true;
         BookRepository book = new BookRepository();
@@ -43,7 +45,7 @@ public class Loan implements Loanable {
 
     @Override
     public LocalDate getLoanDate() {
-        return null;
+        return LocalDate.now();
     }
 
     @Override

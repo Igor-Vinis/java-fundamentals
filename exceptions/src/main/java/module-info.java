@@ -1,3 +1,4 @@
 module com.igor.library.exceptions {
-    requires com.igor.library.core;
+//    requires com.igor.library.core;
+    exports com.igor.library.exceptions;
 }
