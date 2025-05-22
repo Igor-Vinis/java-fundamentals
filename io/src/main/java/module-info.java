@@ -1,3 +1,3 @@
 module com.igor.library.io{
-    requires com.igor.library.core;
+    exports com.igor.library.io;
 }

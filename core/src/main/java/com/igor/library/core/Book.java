@@ -14,6 +14,10 @@ public class Book {
         this.autor = autor;
     }
 
+    public String toCSV(){
+        return isbn + "," + title + "," + autor;
+    }
+
     public String getTitle() {
         return title;
     }
