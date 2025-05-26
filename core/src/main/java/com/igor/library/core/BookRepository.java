@@ -1,7 +1,7 @@
 package com.igor.library.core;
 
 import com.igor.library.exceptions.BookNotAvaliableException;
-import com.igor.library.io.FilerManager;
+import com.igor.library.io.FileManager;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 public class BookRepository {
 
     private final HashMap<String, Book> books = new HashMap<>();
-    private List<String> lista = books.values().stream().map(Book::toCSV).collect(Collectors.toList());
 
     public void addBook(Book book) {
         books.put(book.getIsbn(), book);
@@ -34,11 +33,26 @@ public class BookRepository {
 
     public void save() throws IOException {
         try{
-            FilerManager filerManager = new FilerManager();
+            FileManager filerManager = new FileManager();
             filerManager.save(books.values().stream().map(Book::toCSV).collect(Collectors.toList()));
         } catch (IOException erro){
             System.out.println(erro.getMessage());
         }
 
+    }
+
+    public void load(String path){
+        FileManager filerManager = new FileManager();
+
+        try {
+            List<String> lines = filerManager.load(path);
+
+            for(String line: lines){
+                Book book = Book.fromCSV(line);
+                addBook(book);
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

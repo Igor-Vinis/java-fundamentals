@@ -2,7 +2,7 @@ package com.igor.library.core;
 
 import com.igor.library.exceptions.BookNotAvaliableException;
 //import com.igor.library.io;
-import com.igor.library.io.FilerManager;
+import com.igor.library.io.FileManager;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -19,7 +19,7 @@ public class Main {
 
         try {
             LogManager.getLogManager().readConfiguration(
-                    Main.class.getResourceAsStream("/logging.properties")
+                    Main.class.getClassLoader().getResourceAsStream("logging.properties")
             );
         } catch (IOException e){
             LOGGER.severe("Falha ao carregar configurações de logs: " + e.getMessage());
@@ -42,13 +42,13 @@ public class Main {
 
 
         String pesquisa = "e17b11";
-//        try {
-//            repo.searchByIsbn(pesquisa);
-//            LOGGER.info("Livro pesquisado: " + pesquisa);
-//        } catch (BookNotAvaliableException e) {
-////            System.out.println("Erro! " + e.getMessage());
-//            LOGGER.warning("Falha ao pesquisar livro: " + e.getMessage());
-//            }
+        try {
+            repo.searchByIsbn(pesquisa);
+            LOGGER.info("Livro pesquisado: " + pesquisa);
+        } catch (BookNotAvaliableException e) {
+//            System.out.println("Erro! " + e.getMessage());
+            LOGGER.warning("Falha ao pesquisar livro: " + e.getMessage());
+            }
         try{
             repo.save();
             LOGGER.info("Livros salvos com sucesso ");
@@ -56,6 +56,11 @@ public class Main {
             LOGGER.warning(erro.getMessage());
             System.out.println("Erro! " + erro.getMessage() );
         }
+
+        repo.load("/home/igor/IdeaProjects/java-fundamentals/BooksRepository.csv");
+        repo.listAll();
+
+
 
         }
     }

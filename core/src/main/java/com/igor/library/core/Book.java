@@ -18,6 +18,12 @@ public class Book {
         return isbn + "," + title + "," + autor;
     }
 
+    public static Book fromCSV(String csvLine){
+
+        String[] tokens = csvLine.split(",");
+        return new Book(tokens[0],tokens[1],tokens[2]);
+    }
+
     public String getTitle() {
         return title;
     }
